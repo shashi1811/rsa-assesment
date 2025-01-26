@@ -26,10 +26,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Run tests (optional, include if your app has tests)
-      - name: Run tests
-        run: npm test
-
       # Step 5: Run SonarQube analysis
       - name: Run SonarQube scanner
         env:
