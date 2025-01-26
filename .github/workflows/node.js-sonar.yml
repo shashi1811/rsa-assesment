@@ -55,4 +55,6 @@ jobs:
       - name: Run Docker container from Docker Hub image
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/rsa-nodejs:latest
+          docker stop rsa-js
+          docker rm rsa-js
           docker run -d --name rsa-js -p 80:80 ${{ secrets.DOCKER_USERNAME }}/rsa-nodejs:latest
