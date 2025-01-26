@@ -1,4 +1,4 @@
-name: CI with SonarQube
+name: CI with SonarQube and Docker
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main1
 
 jobs:
-  sonarqube-analysis:
+  ci-pipeline:
     runs-on: [self-hosted, macos]
     steps:
       # Step 1: Checkout code
@@ -33,3 +33,20 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Secret stored in GitHub
         run: |
           npx sonarqube-scanner
+
+      # Step 5: Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 6: Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/rsa-nodejs:latest .
+
+      # Step 7: Push Docker image to Docker Hub
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/rsa-nodejs:latest
