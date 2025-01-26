@@ -26,11 +26,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 5: Run SonarQube analysis
+      # Step 4: Run SonarQube analysis
       - name: Run SonarQube scanner
         env:
           SONAR_HOST_URL: http://localhost:9000 # SonarQube on localhost
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Secret stored in GitHub
         run: |
           npx sonarqube-scanner
-          sonarqube-scanner
