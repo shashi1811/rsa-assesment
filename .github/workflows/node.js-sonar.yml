@@ -32,5 +32,5 @@ jobs:
           SONAR_HOST_URL: http://localhost:9000 # SonarQube on localhost
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Secret stored in GitHub
         run: |
-          npm install --global sonarqube-scanner
+          npx install --global sonarqube-scanner
           sonarqube-scanner
