@@ -4,10 +4,8 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main2
-
+  workflow_dispatch:  # This allows manual trigger via GitHub UI (button)
+  
 jobs:
   ci-pipeline:
     runs-on: [self-hosted, macos]
@@ -29,8 +27,8 @@ jobs:
       # Step 4: Run SonarQube analysis
       - name: Run SonarQube scanner
         env:
-          SONAR_HOST_URL: http://localhost:9000 # SonarQube on localhost
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Secret stored in GitHub
+          SONAR_HOST_URL: http://localhost:9000 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
         run: |
           npx sonarqube-scanner
 
@@ -51,10 +49,10 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/rsa-nodejs:latest
 
-      # Step 8: Run Docker container from Docker Hub image (Locally)
+      # Step 8: Run Docker container from Docker Hub image 
       - name: Run Docker container from Docker Hub image
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/rsa-nodejs:latest
-          docker stop rsa-js
-          docker rm rsa-js
+          docker stop rsa-js || true   
+          docker rm rsa-js || true   
           docker run -d --name rsa-js -p 80:80 ${{ secrets.DOCKER_USERNAME }}/rsa-nodejs:latest
