@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - main1
+      - main2
 
 jobs:
   ci-pipeline:
